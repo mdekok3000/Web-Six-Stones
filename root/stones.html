@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SIS Stone Puller for Web</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css" media="screen, projection">
+        
+        <style type="text/css" media="screen">
+        html { overflow: hidden; }
+        body { background: #000; }
+		
+		#sidebar { 
+			background: #eee;
+			float: left;
+			left: 100px;
+			margin-left: -100px;
+			position: relative;
+			width: 100px;
+			overflow-y: auto;
+    		background: #ddd;
+			color: #000;
+		}
+		
+		ul {
+			background: #000;
+			list-style: none outside none;
+    		margin: 0;
+    		padding: 0;
+		}
+		
+		ul li {
+			display: block;
+			text-align: center;
+		}
+		
+		ul li.header {
+			padding: 5px 0;
+			background: #666;
+			color: #fff;
+			/*border-style: solid;
+			border-width: 1px 0;
+			border-top-color: #fff;
+			border-bottom-color: #999;*/
+			overflow: hidden;
+			font-size: 16pt;
+			font-weight: bold;
+		}
+		
+		ul li.form {
+			background: #ddd;
+			color: #000;
+			text-align: inherit;
+			padding: 6px 5px;
+			font-size: 12pt;
+		}
+
+		ul li.form input {
+			float: right;
+			margin-top: 2px;
+		}
+		
+		ul li.form input[type=checkbox] {
+			width: 14pt;
+			height: 14pt;
+			background: #fff;
+		}
+		
+		ul li ul li.item a {
+			display: block;
+			padding: 3px 0;
+			background: #3ea0ff;
+			color: #fff;
+			/*border-style: solid;
+			border-width: 1px 0;
+			border-top-color: #fff;
+			border-bottom-color: #bbb;*/
+			text-decoration: none;
+		    font-weight: bold;
+		    font-size: 12pt;
+		}
+		
+		ul li ul li.item a.active {
+			background: #74caff;
+		}
+		
+		#contentWrapper { 
+			float: left;
+			width: 100%;
+			padding: 5px;
+		}
+		
+		#content {
+			background: #000;
+			color: #fff;
+			margin-left: 100px;
+			overflow-y: auto;
+		}    
+        </style>
+        <link rel="stylesheet" href="css/tablet.css" media="all and (min-width: 481px) and (max-width: 800px)">
+        <link rel="stylesheet" href="css/mobile.css" media="all and (min-width: 0px) and (max-width: 480px)">
+        
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        
+        <script type="text/javascript" charset="utf-8">
+        var stoneCount = 1;
+        
+        $(document).ready(function() {
+		
+			if($(window).width() > 480)
+			{
+				//GET BROWSER WINDOW HEIGHT
+				var currHeight = $(window).height();
+				//SET HEIGHT OF SIDEBAR AND CONTENT ELEMENTS
+				$('#sidebar, #content').css('height', currHeight);
+				$('#sidebar ul li.header[role=number_of_stones]').html('Stones');
+				$('#sidebar ul li.form[role=neutral] span').html('Neutral');
+			}
+			else
+			{
+				$('#sidebar, #content').css('height', 'auto');
+				$('#sidebar ul li.header[role=number_of_stones]').html('Number of Stones to Pull');
+				$('#sidebar ul li.form[role=neutral] span').html('Pull Neutral Stone');
+			}
+		
+			//ON RESIZE OF WINDOW
+			$(window).resize(function() {
+		
+				if($(window).width() > 480)
+				{
+					//GET NEW HEIGHT
+					var currHeight = $(window).height();	
+					//RESIZE BOTH ELEMENTS TO NEW HEIGHT
+					$('#sidebar, #content').css('height', currHeight);
+					$('#sidebar ul li.header[role=number_of_stones]').html('Stones');
+					$('#sidebar ul li.form[role=neutral] span').html('Neutral');
+				}
+				else
+				{
+					$('#sidebar, #content').css('height', 'auto');
+					$('#sidebar ul li.header[role=number_of_stones]').html('Number of Stones to Pull');
+					$('#sidebar ul li.form[role=neutral] span').html('Pull Neutral Stone');
+				}
+		
+			});
+			
+			$('#sidebar ul li.form[role=neutral]').click(function() {
+				$(this).children('#neutral').click();
+			});
+			
+			$('#sidebar ul li.form[role=neutral] #neutral').click(function() {
+				event.stopPropagation();
+			});
+		
+		});
+		
+		function setStoneCount(numStones) {
+			$('.setstone').removeClass('active');
+			$('#setstone'+numStones).addClass('active');
+			
+			stoneCount = numStones;
+		}
+        </script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div id="page"> 
+			<header id="sidebar"> 
+				<ul>
+					<li class="header" role="number_of_stones">Stones</li>
+					<li>
+						<ul>
+							<li class="item"><a class="active setstone" id="setstone1" href="javascript: setStoneCount(1);">1</a></li><li class="item"><a class="setstone" id="setstone2" href="javascript: setStoneCount(2);">2</a></li><li class="item"><a class="setstone" id="setstone3" href="javascript: setStoneCount(3);">3</a></li><li class="item"><a class="setstone" id="setstone4" href="javascript: setStoneCount(4);">4</a></li><li class="item"><a class="setstone" id="setstone5" href="javascript: setStoneCount(5);">5</a></li><li class="item"><a class="setstone" id="setstone6" href="javascript: setStoneCount(6);">6</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="forms">
+					<li class="header form" role="neutral">
+						<span>Pull Neutral Stone</span>
+						<input type="checkbox" id="neutral" />
+					</li>
+				</ul>
+			</header> 
+		
+			<article id="contentWrapper"> 
+				<section id="content"> 
+					//CONTENT HERE
+				</section> 
+			</article> 
+		</div>
+    </body>
+</html>
